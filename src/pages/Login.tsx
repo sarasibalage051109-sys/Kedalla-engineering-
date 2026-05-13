@@ -1,11 +1,19 @@
 import { motion } from 'motion/react';
-import { ArrowRight, Lock, Mail } from 'lucide-react';
+import { ArrowRight, Lock, Mail, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleGitHubLogin = async () => {
+    // 1. Fetch the OAuth URL from server
+    const response = await fetch('/api/auth/github');
+    const data = await response.json();
+    console.log('GitHub login:', data);
+    // In actual implementation, we'd do window.open(data.url)
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,14 +34,29 @@ export default function Login() {
             Welcome <span className="text-primary italic">Back.</span>
           </h1>
           <p className="text-white/50 font-medium text-sm">
-            Log in to your account without third-party services.
+            Log in to your account.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white/5 p-8 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-sm">
           <div className="space-y-6">
+            
+            <button
+              type="button"
+              onClick={handleGitHubLogin}
+              className="w-full bg-white text-black px-6 py-4 rounded-xl font-black uppercase tracking-widest text-sm hover:scale-[1.02] active:scale-95 transition-all flex justify-center items-center gap-2 mb-6"
+            >
+              <Github size={18} />
+              Connect with GitHub
+            </button>
+            <div className="flex items-center gap-4 text-white/30 text-xs font-bold uppercase tracking-widest">
+              <div className="flex-1 h-px bg-white/10" />
+              OR
+              <div className="flex-1 h-px bg-white/10" />
+            </div>
+
             <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-white/70 mb-2">
+              <label className="block text-xs font-bold uppercase tracking-widest text-white/70 mb-2 mt-6">
                 Email Address
               </label>
               <div className="relative">
